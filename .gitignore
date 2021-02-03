@@ -1,3 +1,4 @@
-data/
+data/chopsticks*
+data/spaceshapes*
 *.pyc
 __pycache__/

@@ -75,7 +75,7 @@ with timer("loading data"):
         from spaceshapes import Spaceshapes
         dataset = Spaceshapes()
     else:
-        raise ValueError(f"Unrecognized dataset {FLAGS.dataset}")
+        raise ValueError(f"Unrecognized dataset {FLAGS.dataset} -- should either be 'spaceshapes' or a Chopsticks variant string with a depth and slope/inter/either/both, e.g. 'chopsticks_depth3_both' or 'chopsticks_depth2_slope'.")
 
     true_hier = dataset.hierarchy
     data = dataset.data
