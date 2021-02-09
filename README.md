@@ -1,15 +1,15 @@
 # Benchmarks, Algorithms, and Metrics for Hierarchical Disentanglement
 
-This directory contains Python code to generate the Spaceshapes and Chopsticks benchmarks (`spaceshapes.py` and `chopsticks.py`), run the MIMOSA and COFHAE algorithms (`mimosa.py` and `cofhae.py`), and evaluate the `R^4` and `R^4_c` disentanglement metrics (`metrics.py`, with baselines adapted from [`disentanglement_lib`](https://github.com/google-research/disentanglement_lib)).
+This directory contains Python code to generate the Spaceshapes and Chopsticks benchmarks ([`src/spaceshapes.py`](./src/spaceshapes.py) and [`src/chopsticks.py`](./src/chopsticks.py)), run the MIMOSA and COFHAE algorithms ([`src/mimosa.py`](./src/mimosa.py) and [`src/cofhae.py`](./src/cofhae.py)), and evaluate the `R^4` and `R^4_c` disentanglement metrics ([`src/metrics.py`](./src/metrics.py), with baselines adapted from [`disentanglement_lib`](https://github.com/google-research/disentanglement_lib)).
 
-To run both COFHAE and MIMOSA together, run `main.py`, e.g. as follows:
+To run both COFHAE and MIMOSA together, run [`main.py`](./main.py), e.g. as follows:
 
 ```bash
 python main.py --dataset=spaceshapes --output_dir=./foo --initial_dim=7
 python main.py --dataset=chopsticks_depth2_either --output_dir=./bar --cos_simil_thresh=0.975
 ```
 
-Note that the first time you run `main.py` for a particular dataset, it will be generated and cached in the `data/` folder. If you do not provide an `--output_dir`, it will be saved in a timestamped folder in `/tmp`.
+Note that the first time you run [`main.py`](./main.py) for a particular dataset, it will be generated and cached in the `data/` folder. If you do not provide an `--output_dir`, it will be saved in a timestamped folder in `/tmp`.
 
 ## Main experiments in the paper
 
