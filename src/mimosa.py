@@ -5,7 +5,7 @@ from sklearn.decomposition import PCA
 from sklearn.neighbors import BallTree
 from collections import defaultdict
 from scipy.spatial import Delaunay
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from helpers import timer, property_cached
 
 # Helper class for running and holding the result of a local singular value

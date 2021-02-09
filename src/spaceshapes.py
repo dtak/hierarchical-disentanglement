@@ -152,7 +152,7 @@ def make_triangle(cx,cy,a,b,c,**kw):
 def rescale(ns, lo, hi):
   return lo + (hi - lo) * ns
 
-data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../data')
 proto_fn = os.path.join(data_dir, 'spaceshapes_prototypes.pkl')
 if os.path.exists(proto_fn):
   with open(proto_fn, 'rb') as f:

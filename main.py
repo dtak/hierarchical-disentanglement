@@ -9,7 +9,7 @@ import numpy as np
 import tensorflow as tf
 from collections import defaultdict
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src'))
 
 import metrics
 from mimosa import MIMOSA

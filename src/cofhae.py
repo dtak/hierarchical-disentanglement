@@ -5,7 +5,7 @@ import pickle
 import numpy as np
 import tensorflow as tf
 from collections import OrderedDict
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from helpers import minibatch, OpenStruct, property_cached, reinitialize_variables
 
 class Discriminator(object):

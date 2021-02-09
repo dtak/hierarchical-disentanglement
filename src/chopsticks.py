@@ -108,7 +108,7 @@ class Chopsticks():
   @property
   def data(self):
     dirname = os.path.dirname(os.path.realpath(__file__))
-    prefix = os.path.join(dirname, f"data/chopsticks_depth{self.depth}_{self.option_string}")
+    prefix = os.path.join(dirname, f"../data/chopsticks_depth{self.depth}_{self.option_string}")
     if not os.path.exists(f"{prefix}_X.npy"):
       A = []
       Z = []
