@@ -199,34 +199,59 @@ def purity_coverage(true_assigns, components):
     }
 
 def H_error(hier1, hier2):
-    from multiset import Multiset
+    # Compute the minimum dimension of a (sub)hierarchy, which corresponds to
+    # the dimensionality of the top-level manifold it represents
+    def min_dim(hier):
+        d = 0
+        for node in hier:
+            if node['type'] == 'continuous':
+                d += 1
+            else:
+                d += min([min_dim(subhier) for subhier in node['options']])
+        return d
 
-    def min_dim(group):
-        return min([
-          sum([1 if dim['type'] == 'continuous' else min_dim(dim['options']) for dim in node])
-          for node in group])
-  
-    def paths_in(hier, D=0, prefix=''):
-        D2 = D + sum([n['type']=='continuous' for n in hier])
+    # Produce a list of the dimensionalities of all the manifolds in the
+    # hierarchy
+    def downstream_dims(hier, dim_offset=0):
+        res = [min_dim(hier) + dim_offset]
+        dim_offset += sum([1 for node in hier if node['type'] == 'continuous'])
+        for node in hier:
+            if node['type'] == 'categorical':
+                for subhier in node['options']:
+                    res += downstream_dims(subhier, dim_offset)
+        return list(sorted(res))
+
+    # Convert that list to a string
+    def dim_string(hier):
+        return ','.join(map(str, downstream_dims(hier)))
+
+    # Sort the children of a node by these downstream dimension strings
+    def sorted_children(hier):
         children = []
         for n in hier:
             if n['type'] == 'categorical':
                 children += n['options']
+        return sorted(children, key=dim_string)
 
-        if len(children):
-            res = []
-            for n in hier:
-                if n['type'] == 'categorical':
-                    opts = n['options']
-                    for child in opts:
-                        res += paths_in(child, D=D2, prefix=f"{prefix}c{D2+min_dim(opts)}->")
-            return res
-        else:
-            return [prefix+f"{D2}D"]
+    # Convert a hierarchy into a normalized form
+    def to_enclosure_format(hier, dim_offset=0, idx_offset=0):
+        nodes = [min_dim(hier) + dim_offset]
+        adj = [[]]
+        dim_offset += sum([1 for node in hier if node['type'] == 'continuous'])
+        for i, child in enumerate(sorted_children(hier)):
+            adj[0].append(len(nodes) + idx_offset)
+            subnodes, subadj = to_enclosure_format(child,
+                    idx_offset=idx_offset+len(nodes),
+                    dim_offset=dim_offset)
+            nodes += subnodes
+            adj += subadj
+        return nodes, adj
 
-    m1 = Multiset(paths_in(hier1))
-    m2 = Multiset(paths_in(hier2))
-    return len(m1 ^ m2)
+    # Finally, compute the tree edit distance (per Zhang and Shasha 1989, with
+    # edist's implementation) between the normalized forms of both hierarchies.
+    import edist.ted as ted
+    return ted.standard_ted(*to_enclosure_format(hier1),
+                            *to_enclosure_format(hier2))
 
 ###############################################################################
 #
